@@ -28,12 +28,15 @@ namespace BatchApiExample
                 };
                 data.Add(obj);
             }
-            var customerId = -1; // YOUR_CUSTOMER_ID
-            var contentId = -1; // YOUR_CUSTOMER_ID       
+            var customerId = 1; // YOUR_CUSTOMER_ID
+            var contentId = 1; // YOUR_CUSTOMER_ID       
             var customerKey = "CUSTOMER_KEY_GOES_HERE"; //Customer key
             var api = new CludoApi(customerId, customerKey);
             api.PushData(contentId, data);
-            api.DeleteData(contentId, data.Select(d=> new KeyValuePair<string, string>(d["Id"].ToString(), d["Type"].ToString())));
+            api.DeleteData(contentId, data.Select(d=> new Dictionary<string, string>()
+            {
+                { d["Id"].ToString(), d["Type"].ToString()}
+            }));
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e)
@@ -43,7 +46,7 @@ namespace BatchApiExample
 
     public class CludoApi
     {
-        private const string CludoSearchApiUrl = "https://api.cludo.com/"; 
+        private const string CludoSearchApiUrl = "http://search.local/"; 
         private readonly int _customerId;
 
         private readonly string _customerKey;
@@ -66,7 +69,7 @@ namespace BatchApiExample
             return client;
         }
 
-        public void DeleteData(int contentId, IEnumerable<KeyValuePair<string, string>> data)
+        public void DeleteData(int contentId, IEnumerable<Dictionary<string, string>> data)
         {
             using (var client = GetClient())
             {
