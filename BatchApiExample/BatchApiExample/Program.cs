@@ -46,7 +46,7 @@ namespace BatchApiExample
 
     public class CludoApi
     {
-        private const string CludoSearchApiUrl = "http://search.local/"; 
+        private const string CludoSearchApiUrl = "https://api.cludo.com/"; 
         private readonly int _customerId;
 
         private readonly string _customerKey;
